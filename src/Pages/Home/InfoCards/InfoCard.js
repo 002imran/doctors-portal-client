@@ -10,7 +10,6 @@ const InfoCard = ({card}) => {
         <div className="card-body">
           <h2 className="card-title">{name}</h2>
           <p>{description}</p>
-        
         </div>
       </div>
     );

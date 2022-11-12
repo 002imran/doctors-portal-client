@@ -6,13 +6,13 @@ const Banner = () => {
     return (
       <>
         <div
-          className="hero bg-base-200 h-96"
+          className="hero bg-base-200 h-auto"
           style={{ background: `url(${bgImg})` }}
         >
-          <div className="hero-content flex-col lg:flex-row-reverse">
+          <div className="hero-content flex-col lg:flex-row-reverse py-56">
             <img
               src={chair}
-              className="max-w-sm rounded-lg shadow-2xl"
+              className="max-w-sm rounded-lg shadow-2xl h-96 w-96"
               alt=""
             />
             <div>
