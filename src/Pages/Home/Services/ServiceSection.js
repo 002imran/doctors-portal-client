@@ -7,7 +7,7 @@ const ServiceSection = () => {
     return (
       <div className="mt-36">
         <div className="flex items-center justify-center">
-          <div>
+          <div className='mt-10'>
             <h2 className="text-xl text-center">OUR SERVICES</h2>
             <h2 className="text-3xl">Services We Provide</h2>
           </div>

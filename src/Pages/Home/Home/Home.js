@@ -1,6 +1,7 @@
 import React from 'react';
 import Banner from '../Banner/Banner';
 import InfoCards from '../InfoCards/InfoCards';
+import MakeAppointment from '../MakeAppointment/MakeAppointment';
 import ServiceSection from '../Services/ServiceSection';
 
 const Home = () => {
@@ -11,6 +12,7 @@ const Home = () => {
             {/* <ServicesCards></ServicesCards>
              */}
              <ServiceSection></ServiceSection>
+             <MakeAppointment></MakeAppointment>
         </div>
     );
 };
