@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import React from 'react';
 
-const BookingModal = ({treatment, selectedDate}) => {
+const BookingModal = ({treatment, setTreatment, selectedDate}) => {
     // treatment is just another name of appointmentOptions with name, slots, _id 
     const {name, slots} = treatment;
     const date = format(selectedDate, 'PP');
@@ -13,9 +13,22 @@ const BookingModal = ({treatment, selectedDate}) => {
       const name = form.name.value;
       const email = form.email.value;
       const phone = form.phone.value;
-      console.log(date, slot, name, email, phone);
+      const booking = {
+        appointmentDate: date,
+        treatment: name,
+        patient: name,
+        slot,
+        email,
+        phone,
+      };
+
+       console.log(booking);
+       setTreatment(null);
+     
+
     }
 
+    
     return (
       <>
         <input type="checkbox" id="booking-modal" className="modal-toggle" />

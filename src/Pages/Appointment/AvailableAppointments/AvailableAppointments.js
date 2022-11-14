@@ -31,7 +31,9 @@ const AvailableAppointments = ({selectedDate}) => {
             treatment &&
              <BookingModal
              selectedDate={selectedDate}
-             treatment={treatment}>
+             treatment={treatment}
+             setTreatment={setTreatment}
+             >
             </BookingModal>}
       </section>
     );

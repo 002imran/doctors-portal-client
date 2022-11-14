@@ -1,10 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+
 
 const Login = () => {
+    const [data, setData] = useState("");
+    const { register, handleSubmit} = useForm();
     return (
+      <div className="h-[800px] flex justify-center items-center">
         <div>
-            <h2>This is login page</h2>
+          <h2 className="text-4xl">Login</h2>
+          <form
+            onSubmit={handleSubmit((data) => setData(JSON.stringify(data)))}
+          >
+            <div className="form-control w-full max-w-xs">
+              <label className="label">
+                <span className="label-text">Email</span>
+              </label>
+              <input
+                type="email"
+                {...register("email")}
+                placeholder=""
+                className="input input-bordered w-full max-w-xs"
+              />
+              <label className="label">
+                <span className="label-text">Password</span>
+              </label>
+              <input
+                type="password"
+                {...register("passqord")}
+                placeholder=""
+                className="input input-bordered w-full max-w-xs"
+              />
+            </div>
+
+            <p>{data}</p>
+            <input type="submit" />
+          </form>
         </div>
+      </div>
     );
 };
 
