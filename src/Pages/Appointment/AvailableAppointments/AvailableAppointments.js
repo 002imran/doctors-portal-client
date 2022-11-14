@@ -6,7 +6,7 @@ import AppointmentOption from './AppointmentOption';
 const AvailableAppointments = ({selectedDate}) => {
     const [appointmentOptions, setAppointmentOptions] = useState([]);
     const [treatment, setTreatment] = useState(null);
-
+    
     useEffect(()=>{
         fetch('appointmentOptions.json')
         .then(res => res.json())
@@ -29,7 +29,9 @@ const AvailableAppointments = ({selectedDate}) => {
         </div>
         {
             treatment &&
-             <BookingModal treatment={treatment}>
+             <BookingModal
+             selectedDate={selectedDate}
+             treatment={treatment}>
             </BookingModal>}
       </section>
     );
