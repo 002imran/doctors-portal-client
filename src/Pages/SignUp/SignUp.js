@@ -1,13 +1,39 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../contexts/AuthProvider';
 
 const SignUp = () => {
-    const {register, formState: {errors}, handleSubmit } = useForm();
+    const {
+      register,
+      formState: { errors },
+      handleSubmit
+    } = useForm();
+
+    const { createUser, updateUser } = useContext(AuthContext);
+    const [signUpError, setSignUPError] = useState('');
 
     const handleSignUp = (data) =>{
         console.log(data);
-        console.log(errors);
+        setSignUPError('')
+        createUser(data.email, data.password)
+        .then(result =>{
+            const user = result.user;
+            console.log(user);
+            toast('User Created Successfully')
+            const userInfo = {
+                displayName : data.name
+            }
+            updateUser(userInfo)
+            .then(()=>{})
+            .catch(err => console.log(err));
+        })
+        .catch((error=>{
+            console.error(error);
+            setSignUPError(error.message)
+        }))
+  
     }
 
     return (
@@ -75,10 +101,11 @@ const SignUp = () => {
               value="sign up"
               className="btn btn-accent w-full mt-5"
             />
+            {signUpError && <p className='text-red-600'>{signUpError}</p>}
           </form>
           <p className="p-2 text-sm text-center">
             Already have an account?
-            <Link to="/signup" className="text-primary">
+            <Link to="/login" className="text-primary">
               Login
             </Link>
           </p>
