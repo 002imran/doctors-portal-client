@@ -1,10 +1,12 @@
 import { format } from 'date-fns';
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../../../contexts/AuthProvider';
 
 const BookingModal = ({treatment, setTreatment, selectedDate}) => {
     // treatment is just another name of appointmentOptions with name, slots, _id 
     const {name, slots} = treatment;
     const date = format(selectedDate, 'PP');
+    const {user} = useContext(AuthContext);
 
     const handleBooking = event => {
       event.preventDefault();
@@ -62,21 +64,45 @@ const BookingModal = ({treatment, setTreatment, selectedDate}) => {
               <input
                 name="name"
                 type="text"
-                placeholder="Your Name"
+                
                 className="input input-bordered w-full"
+                placeholder={
+                  user?.displayName?(
+                    user.displayName
+                  ) : (
+                    "Your Name"
+                  )
+                  
+                } 
+                
+
+                
               />
               <input
+                className="input input-bordered w-full"
                 name="email"
                 type="email"
-                placeholder="Email Address"
-                className="input input-bordered w-full"
+                 placeholder={
+                  user?.email?(
+                    user.email
+                  ) : (
+                    "Email Address"
+                  )
+                  
+                } 
               />
               <input
+                className="input input-bordered w-full"
                 name="phone"
                 type="text"
-                placeholder="Phone Number"
-                className="input input-bordered w-full"
-              />
+                placeholder={
+                  user?.phone?(
+                    user.phone
+                  ) : (
+                    "Your Phone"
+                  )
+                  
+                }     />
               <br />
 
               <input
