@@ -1,10 +1,11 @@
 import { format } from 'date-fns';
 import React, { useContext } from 'react';
+import toast from 'react-hot-toast';
 import { AuthContext } from '../../../contexts/AuthProvider';
 
-const BookingModal = ({treatment, setTreatment, selectedDate}) => {
+const BookingModal = ({treatment, setTreatment, selectedDate, refetch}) => {
     // treatment is just another name of appointmentOptions with name, slots, _id 
-    const {name, slots} = treatment;
+    const {name: treatmentName, slots} = treatment;
     const date = format(selectedDate, 'PP');
     const {user} = useContext(AuthContext);
 
@@ -17,18 +18,39 @@ const BookingModal = ({treatment, setTreatment, selectedDate}) => {
       const phone = form.phone.value;
       const booking = {
         appointmentDate: date,
-        treatment: name,
+        treatment: treatmentName,
         patient: name,
         slot,
         email,
         phone,
       };
 
-       console.log(booking);
-       setTreatment(null);
-     
+      //sending data to the server
+      //after saving data then close the modal
+      //and display success toast
 
-    }
+      fetch('http://localhost:5000/bookings',{
+          method: 'POST',
+          headers: {
+            'content-type' : 'application/json'
+          },
+          body: JSON.stringify(booking)
+        
+      })
+      .then(res => res.json())
+      .then(data => {
+        // console.log(data);
+        if(data.acknowledged){
+          setTreatment(null);
+          toast.success('Booking Confirmed');
+          refetch();
+
+        }
+        else{
+          toast.error(data.message);
+        }
+    })
+}
 
     
     return (
@@ -42,7 +64,7 @@ const BookingModal = ({treatment, setTreatment, selectedDate}) => {
             >
               ✕
             </label>
-            <h3 className="text-lg font-bold">{name}</h3>
+            <h3 className="text-lg font-bold">{treatmentName}</h3>
             <form
               onSubmit={handleBooking}
               className="grid grid-cols-1 gap-3 mt-10"
@@ -64,16 +86,10 @@ const BookingModal = ({treatment, setTreatment, selectedDate}) => {
               <input
                 name="name"
                 type="text"
-                
+                defaultValue={user?.displayName}
+                disabled
                 className="input input-bordered w-full"
-                placeholder={
-                  user?.displayName?(
-                    user.displayName
-                  ) : (
-                    "Your Name"
-                  )
-                  
-                } 
+                placeholder="Your Name"
                 
 
                 
@@ -82,14 +98,9 @@ const BookingModal = ({treatment, setTreatment, selectedDate}) => {
                 className="input input-bordered w-full"
                 name="email"
                 type="email"
-                 placeholder={
-                  user?.email?(
-                    user.email
-                  ) : (
-                    "Email Address"
-                  )
-                  
-                } 
+                defaultValue={user?.email}
+                disabled
+                placeholder="Your Email"
               />
               <input
                 className="input input-bordered w-full"

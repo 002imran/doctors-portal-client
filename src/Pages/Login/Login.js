@@ -2,11 +2,12 @@ import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
+
 const Login = () => {
     const { register, formState: { errors }, handleSubmit} = useForm();
-    const { signIn } = useContext(AuthContext);
+    const { signIn, resetPassword } = useContext(AuthContext);
     const [loginError, setLoginError] = useState('');
-
+   
      const location = useLocation();
      const navigate = useNavigate();
 
@@ -27,6 +28,30 @@ const Login = () => {
              setLoginError(error.message);
         });
     }
+
+    const handleResetPassword = (data) =>{
+        setLoginError('');
+        resetPassword(data.email)
+        .then(()=>{
+          return 'reset your password'
+        })
+       .catch(error=>{
+        console.log(error)
+        setLoginError(error.message)
+      })
+    }
+
+    // const handleResetPassword = async()=>{
+    //   if(!user.email) return setLoginError("Please enter your email");
+    //   try{
+    //     await resetPassword(user.email);
+    //     setLoginError("Sent you a email with link, Please check your email.");
+    //   }
+    //   catch(error){
+    //     setLoginError(error.message)
+    //   }
+    // }
+
     return (
       <div className="h-[800px] flex justify-center items-center">
         <div className="w-96 p-7">
@@ -60,9 +85,12 @@ const Login = () => {
                 className="input input-bordered w-full max-w-xs"
               />
 
-              <label className="label">
-                <span className="label-text">Forget Password?</span>
-              </label>
+                
+                 <a href="#!" className="text-sm py-2" onClick={handleResetPassword }>Forget Password?</a>
+        
+              {/* <button className='py-2 text-sm cursor-pointer' onClick={() => setModalShow(true)}></button>
+                  <ResetPassword show={modalShow} onHide={()=> setModalShow(false)} /> */}
+     
               {errors.password && (
                 <p className="text-red-600">{errors.password?.message}</p>
               )}
@@ -80,13 +108,19 @@ const Login = () => {
             New to Doctors Portal?
             <Link to='/signup' className="text-primary"> Create new account</Link>
           </p>
+          
+              
           <div className="divider">OR</div>
           <input
             type="submit"
             value="CONTINUE WITH GOOGLE"
             className="btn btn-outline w-full"
           />
-        </div>
+
+         </div>
+         
+       
+          
       </div>
     );
 };
