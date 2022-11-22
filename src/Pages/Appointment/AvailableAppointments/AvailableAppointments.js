@@ -1,6 +1,5 @@
-import { async } from '@firebase/util';
+
 import { useQuery } from '@tanstack/react-query';
-import { data } from 'autoprefixer';
 import { format } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 import Loading from '../../Shared/Loading/Loading';
@@ -21,7 +20,7 @@ const AvailableAppointments = ({selectedDate}) => {
    
       }
         
-    })
+    });
     
     // useEffect(()=>{
     //     fetch('http://localhost:5000/appointmentOptions')
